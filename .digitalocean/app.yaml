@@ -1,0 +1,68 @@
+name: barber-app
+services:
+- name: api
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: your-username/barber-app
+  health_check:
+    http_path: /api/health
+  http_port: 3000
+  instance_count: 2
+  instance_size_slug: basic-xxs
+  run_command: npm start
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    type: SECRET
+  - key: NEXT_PUBLIC_FIREBASE_API_KEY
+    scope: RUN_TIME
+    type: SECRET
+  - key: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    scope: RUN_TIME
+    type: SECRET
+  - key: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    scope: RUN_TIME
+    type: SECRET
+  - key: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    scope: RUN_TIME
+    type: SECRET
+  - key: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    scope: RUN_TIME
+    type: SECRET
+  - key: NEXT_PUBLIC_FIREBASE_APP_ID
+    scope: RUN_TIME
+    type: SECRET
+  - key: FIREBASE_PROJECT_ID
+    scope: RUN_TIME
+    type: SECRET
+  - key: FIREBASE_CLIENT_EMAIL
+    scope: RUN_TIME
+    type: SECRET
+  - key: FIREBASE_PRIVATE_KEY
+    scope: RUN_TIME
+    type: SECRET
+  - key: WAVE_API_KEY
+    scope: RUN_TIME
+    type: SECRET
+  - key: ORANGE_MONEY_API_KEY
+    scope: RUN_TIME
+    type: SECRET
+  - key: FREE_MONEY_API_KEY
+    scope: RUN_TIME
+    type: SECRET
+  - key: TWILIO_ACCOUNT_SID
+    scope: RUN_TIME
+    type: SECRET
+  - key: TWILIO_AUTH_TOKEN
+    scope: RUN_TIME
+    type: SECRET
+  - key: TWILIO_PHONE_NUMBER
+    scope: RUN_TIME
+    type: SECRET
+
+databases:
+- engine: PG
+  name: barber-app-db
+  production: false
+  version: "14" 

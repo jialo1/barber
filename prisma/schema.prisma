@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  phoneNumber   String    @unique
+  name          String?
+  email         String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  reservations  Reservation[]
+  barberProfile Barber?
+}
+
+model Barber {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id])
+  description   String?
+  location      String?
+  latitude      Float?
+  longitude     Float?
+  services      Service[]
+  workingHours  WorkingHours[]
+  reservations  Reservation[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  duration    Int       // Duration in minutes
+  barberId    String
+  barber      Barber    @relation(fields: [barberId], references: [id])
+  reservations Reservation[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model WorkingHours {
+  id        String   @id @default(cuid())
+  dayOfWeek Int      // 0-6 (Sunday-Saturday)
+  openTime  String
+  closeTime String
+  barberId  String
+  barber    Barber   @relation(fields: [barberId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reservation {
+  id        String   @id @default(cuid())
+  date      DateTime
+  status    String   // PENDING, CONFIRMED, CANCELLED
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  barberId  String
+  barber    Barber   @relation(fields: [barberId], references: [id])
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+} 

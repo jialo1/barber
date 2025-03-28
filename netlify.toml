@@ -1,0 +1,35 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NEXT_USE_NETLIFY_EDGE = "true"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions.environment]
+  DATABASE_URL = "@database_url"
+  NEXT_PUBLIC_FIREBASE_API_KEY = "@firebase_api_key"
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = "@firebase_auth_domain"
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID = "@firebase_project_id"
+  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = "@firebase_storage_bucket"
+  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "@firebase_messaging_sender_id"
+  NEXT_PUBLIC_FIREBASE_APP_ID = "@firebase_app_id"
+  FIREBASE_PROJECT_ID = "@firebase_project_id"
+  FIREBASE_CLIENT_EMAIL = "@firebase_client_email"
+  FIREBASE_PRIVATE_KEY = "@firebase_private_key"
+  WAVE_API_KEY = "@wave_api_key"
+  ORANGE_MONEY_API_KEY = "@orange_money_api_key"
+  FREE_MONEY_API_KEY = "@free_money_api_key"
+  TWILIO_ACCOUNT_SID = "@twilio_account_sid"
+  TWILIO_AUTH_TOKEN = "@twilio_auth_token"
+  TWILIO_PHONE_NUMBER = "@twilio_phone_number" 

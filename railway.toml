@@ -1,0 +1,19 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npx prisma generate"
+
+[deploy]
+startCommand = "npx prisma db push"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[deploy.env]
+NODE_ENV = "production"
+
+[deploy.healthcheck]
+interval = "30s"
+timeout = "10s"
+retries = 3
+startPeriod = "40s" 
