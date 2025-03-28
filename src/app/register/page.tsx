@@ -42,8 +42,8 @@ const initialErrors: FormErrors = {
 export default function RegisterPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<FormErrors>(initialErrors);
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [errors, setErrors] = useState<FormErrors>(initialErrors);
 
   const validateForm = () => {
     const newErrors: FormErrors = {

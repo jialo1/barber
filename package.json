@@ -7,35 +7,36 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push",
-    "prisma:studio": "prisma studio"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.17",
-    "@heroicons/react": "^2.0.18",
-    "@prisma/client": "^5.6.0",
-    "@types/twilio": "^3.19.3",
-    "firebase": "^10.6.0",
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
+    "@prisma/client": "^5.8.1",
+    "@stripe/stripe-js": "^2.4.0",
+    "@types/leaflet": "^1.9.8",
+    "autoprefixer": "^10.4.16",
+    "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0",
     "leaflet": "^1.9.4",
     "next": "14.0.3",
+    "next-auth": "^4.24.5",
+    "postcss": "^8.4.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^5.5.0",
     "react-leaflet": "^4.2.1",
-    "twilio": "^4.23.0"
+    "stripe": "^14.10.0",
+    "tailwindcss": "^3.4.0",
+    "twilio": "^4.19.0"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.17",
-    "@types/node": "^20.9.2",
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.53.0",
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "eslint": "^8.56.0",
     "eslint-config-next": "14.0.3",
-    "postcss": "^8.4.31",
-    "prisma": "^5.6.0",
-    "tailwindcss": "^3.3.5",
-    "typescript": "^5.2.2"
+    "prisma": "^5.8.1",
+    "typescript": "^5.3.3"
   }
 }
