@@ -1,7 +1,155 @@
+'use client';
+
 import Link from 'next/link';
 import { MapPinIcon, ClockIcon, ScissorsIcon, StarIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { useState } from 'react';
+import ReservationSystem from '@/components/ReservationSystem';
+
+interface Barber {
+  id: number;
+  name: string;
+  image: string;
+  rating: number;
+  reviews: number;
+  location: string;
+  price: string;
+  services: string[];
+}
 
 export default function Home() {
+  const [showReservation, setShowReservation] = useState(false);
+  const [selectedBarber, setSelectedBarber] = useState<Barber | null>(null);
+
+  const services = [
+    {
+      name: 'Coupe',
+      description: 'Coupe de cheveux personnalisée selon vos préférences',
+      price: 'À partir de 2000 FCFA',
+      duration: '30-45 min',
+      image: '/images/services/coupe.svg',
+      barber: {
+        name: 'Salon Elite',
+        rating: 4.8,
+        reviews: 128,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber1.jpg'
+      }
+    },
+    {
+      name: 'Barbe',
+      description: 'Taille de barbe professionnelle et soins',
+      price: 'À partir de 1500 FCFA',
+      duration: '20-30 min',
+      image: '/images/services/barbe.svg',
+      barber: {
+        name: 'Barber Shop Premium',
+        rating: 4.9,
+        reviews: 256,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber2.jpg'
+      }
+    },
+    {
+      name: 'Coupe + Barbe',
+      description: 'Service complet incluant coupe et barbe',
+      price: 'À partir de 3000 FCFA',
+      duration: '45-60 min',
+      image: '/images/services/coupe-barbe.svg',
+      barber: {
+        name: 'Salon Elite',
+        rating: 4.8,
+        reviews: 128,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber1.jpg'
+      }
+    },
+    {
+      name: 'Dégradé',
+      description: 'Coupe dégradée moderne et tendance',
+      price: 'À partir de 2500 FCFA',
+      duration: '40-50 min',
+      image: '/images/services/degrade.svg',
+      barber: {
+        name: 'Barber Shop Premium',
+        rating: 4.9,
+        reviews: 256,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber2.jpg'
+      }
+    },
+    {
+      name: 'Tresse',
+      description: 'Tressage professionnel de tous types',
+      price: 'À partir de 5000 FCFA',
+      duration: '60-90 min',
+      image: '/images/services/tresse.svg',
+      barber: {
+        name: 'Barber Shop Premium',
+        rating: 4.9,
+        reviews: 256,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber2.jpg'
+      }
+    },
+    {
+      name: 'Coloration',
+      description: 'Coloration professionnelle de cheveux',
+      price: 'À partir de 4000 FCFA',
+      duration: '45-60 min',
+      image: '/images/services/coloration.svg',
+      barber: {
+        name: 'Salon Elite',
+        rating: 4.8,
+        reviews: 128,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber1.jpg'
+      }
+    },
+    {
+      name: 'Coupe Afro',
+      description: 'Coupe spécialisée pour cheveux afro',
+      price: 'À partir de 3500 FCFA',
+      duration: '45-60 min',
+      image: '/images/services/coupe.svg',
+      barber: {
+        name: 'Salon Elite',
+        rating: 4.8,
+        reviews: 128,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber1.jpg'
+      }
+    },
+    {
+      name: 'Soins Cheveux',
+      description: 'Soins et traitements capillaires',
+      price: 'À partir de 3000 FCFA',
+      duration: '30-45 min',
+      image: '/images/services/coloration.svg',
+      barber: {
+        name: 'Barber Shop Premium',
+        rating: 4.9,
+        reviews: 256,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber2.jpg'
+      }
+    },
+    {
+      name: 'Coupe + Soins',
+      description: 'Service complet avec soins inclus',
+      price: 'À partir de 4500 FCFA',
+      duration: '60-75 min',
+      image: '/images/services/coupe-barbe.svg',
+      barber: {
+        name: 'Salon Elite',
+        rating: 4.8,
+        reviews: 128,
+        location: 'Dakar, Sénégal',
+        image: '/images/barbers/barber1.jpg'
+      }
+    }
+  ];
+
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -75,51 +223,101 @@ export default function Home() {
       </section>
 
       {/* Popular Services Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              Services populaires
-            </h2>
-            <p className="mt-4 text-lg text-gray-500">
+            <h2 className="text-3xl font-bold text-gray-900">Services populaires</h2>
+            <p className="mt-4 text-lg text-gray-600">
               Découvrez nos services les plus demandés
             </p>
           </div>
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                name: 'Coupe de cheveux',
-                price: 'À partir de 2000 FCFA',
-                description: 'Coupe personnalisée selon vos préférences',
-              },
-              {
-                name: 'Barbe',
-                price: 'À partir de 1500 FCFA',
-                description: 'Taille et modelage de barbe professionnel',
-              },
-              {
-                name: 'Coupe + Barbe',
-                price: 'À partir de 3000 FCFA',
-                description: 'Service complet pour un look impeccable',
-              },
-            ].map((service) => (
-              <div key={service.name} className="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <div key={service.name} className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                {/* Image du service avec overlay */}
+                <div className="relative h-64">
+                  <Image
+                    src={service.image}
+                    alt={service.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-2xl font-bold text-white mb-2">{service.name}</h3>
+                    <p className="text-white/90 text-sm">{service.description}</p>
+                  </div>
+                </div>
+
+                {/* Informations du salon */}
                 <div className="p-6">
-                  <h3 className="text-lg font-medium text-gray-900">{service.name}</h3>
-                  <p className="mt-2 text-sm text-gray-500">{service.description}</p>
-                  <p className="mt-4 text-lg font-semibold text-primary-600">{service.price}</p>
-                  <Link
-                    href="/search"
-                    className="mt-4 block w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="relative h-14 w-14 rounded-full overflow-hidden ring-4 ring-primary-100">
+                      <Image
+                        src={service.barber.image}
+                        alt={service.barber.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900">{service.barber.name}</h4>
+                      <div className="flex items-center mt-1">
+                        <StarIcon className="h-4 w-4 text-yellow-400" />
+                        <span className="ml-1 text-sm text-gray-600">{service.barber.rating}</span>
+                        <span className="ml-1 text-sm text-gray-500">({service.barber.reviews} avis)</span>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">{service.barber.location}</p>
+                    </div>
+                  </div>
+
+                  {/* Prix et durée */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-base font-semibold text-primary-600">{service.price}</span>
+                    </div>
+                    <div className="flex items-center space-x-2 text-gray-500 text-sm">
+                      <ClockIcon className="h-4 w-4" />
+                      <span>{service.duration}</span>
+                    </div>
+                  </div>
+
+                  {/* Bouton Réserver */}
+                  <button
+                    onClick={() => {
+                      setSelectedBarber({
+                        id: 1, // ID temporaire
+                        name: service.barber.name,
+                        image: service.barber.image,
+                        rating: service.barber.rating,
+                        reviews: service.barber.reviews,
+                        location: service.barber.location,
+                        price: service.price,
+                        services: [service.name]
+                      });
+                      setShowReservation(true);
+                    }}
+                    className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 transform transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-primary-500/25"
                   >
-                    Réserver
-                  </Link>
+                    Réserver maintenant
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Système de réservation */}
+      {showReservation && selectedBarber && (
+        <ReservationSystem
+          barber={selectedBarber}
+          onClose={() => {
+            setShowReservation(false);
+            setSelectedBarber(null);
+          }}
+        />
+      )}
 
       {/* Testimonials Section */}
       <section className="py-12 bg-white">
