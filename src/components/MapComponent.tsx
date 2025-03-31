@@ -2,36 +2,52 @@
 
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 interface Barber {
-  id: string;
+  id: number;
   name: string;
-  location: {
+  location: string;
+  rating: number;
+  reviews: number;
+  services: string[];
+  image: string;
+  price: string;
+  description: string;
+  coordinates: {
     lat: number;
     lng: number;
   };
-  rating: number;
-  services: string[];
 }
 
 interface MapComponentProps {
   barbers: Barber[];
-  center: {
-    lat: number;
-    lng: number;
-  };
 }
 
-export default function MapComponent({ barbers, center }: MapComponentProps) {
+export default function MapComponent({ barbers }: MapComponentProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const [center, setCenter] = useState({ lat: 14.7167, lng: -17.4677 }); // Dakar par défaut
 
   useEffect(() => {
     setIsMounted(true);
+    // Géolocalisation de l'utilisateur
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error('Erreur de géolocalisation:', error);
+        }
+      );
+    }
   }, []);
 
-  // Correction des icônes Leaflet
+  // Configuration de l'icône Leaflet
   const icon = L.icon({
     iconUrl: '/marker-icon.png',
     iconSize: [25, 41],
@@ -47,7 +63,7 @@ export default function MapComponent({ barbers, center }: MapComponentProps) {
 
   return (
     <MapContainer
-      center={[center.lat, center.lng]}
+      center={center}
       zoom={13}
       style={{ height: '100%', width: '100%' }}
     >
@@ -58,24 +74,19 @@ export default function MapComponent({ barbers, center }: MapComponentProps) {
       {barbers.map((barber) => (
         <Marker
           key={barber.id}
-          position={[barber.location.lat, barber.location.lng]}
+          position={barber.coordinates}
           icon={icon}
         >
           <Popup>
             <div className="p-2">
               <h3 className="font-semibold">{barber.name}</h3>
-              <p className="text-sm text-gray-600">Note: {barber.rating}/5</p>
-              <div className="mt-2">
-                <p className="text-sm font-medium">Services:</p>
-                <ul className="text-sm text-gray-600">
-                  {barber.services.map((service, index) => (
-                    <li key={index}>{service}</li>
-                  ))}
-                </ul>
+              <p className="text-sm text-gray-600">{barber.location}</p>
+              <div className="mt-2 flex items-center">
+                <span className="text-yellow-400">★</span>
+                <span className="ml-1 text-sm">{barber.rating}</span>
+                <span className="ml-1 text-sm text-gray-500">({barber.reviews} avis)</span>
               </div>
-              <button className="mt-2 w-full bg-primary-600 text-white px-3 py-1 rounded-md text-sm hover:bg-primary-700">
-                Réserver
-              </button>
+              <p className="mt-2 text-sm text-primary-600">{barber.price}</p>
             </div>
           </Popup>
         </Marker>

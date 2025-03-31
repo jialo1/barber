@@ -6,12 +6,13 @@ import BarberMap from '@/components/BarberMap';
 import Image from 'next/image';
 import ReservationSystem from '@/components/ReservationSystem';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 // Données de test pour les coiffeurs
 const barbers = [
   {
     id: 1,
-    name: 'Mamadou Diop',
+    name: 'Style & Co',
     location: 'Dakar, Sénégal',
     rating: 4.8,
     reviews: 128,
@@ -32,7 +33,7 @@ const barbers = [
   },
   {
     id: 2,
-    name: 'Abdoulaye Sow',
+    name: 'Afro Style',
     location: 'Dakar, Sénégal',
     rating: 4.9,
     reviews: 256,
@@ -51,7 +52,90 @@ const barbers = [
     languages: ['Français', 'Wolof', 'Anglais'],
     isFavorite: false
   },
-  // Ajoutez plus de coiffeurs ici
+  {
+    id: 3,
+    name: 'Modern Cuts',
+    location: 'Dakar, Sénégal',
+    rating: 4.7,
+    reviews: 189,
+    services: ['Coupe', 'Barbe', 'Coloration'],
+    image: '/images/barbers/barber3.jpg',
+    logo: '/images/logos/salon3.png',
+    price: 'À partir de 3000 FCFA',
+    description: 'Spécialiste des coupes afro et coloration',
+    coordinates: { lat: 14.7167, lng: -17.4677 },
+    availability: 'Disponible aujourd\'hui',
+    distance: '4.2 km',
+    phone: '+221 77 999 99 99',
+    openingHours: 'Lun-Sam: 10h-21h',
+    specialties: ['Coupes afro', 'Coloration', 'Barbe'],
+    experience: '6 ans',
+    languages: ['Français', 'Wolof'],
+    isFavorite: false
+  },
+  {
+    id: 4,
+    name: 'Luxury Barbers',
+    location: 'Dakar, Sénégal',
+    rating: 4.6,
+    reviews: 145,
+    services: ['Coupe', 'Barbe', 'Dégradé', 'Tresse'],
+    image: '/images/barbers/barber4.jpg',
+    logo: '/images/logos/salon4.png',
+    price: 'À partir de 2800 FCFA',
+    description: 'Expert en coupes tendance et tressage',
+    coordinates: { lat: 14.7167, lng: -17.4677 },
+    availability: 'Prochain rendez-vous: 15:30',
+    distance: '1.8 km',
+    phone: '+221 77 666 66 66',
+    openingHours: 'Lun-Dim: 9h-23h',
+    specialties: ['Coupes tendance', 'Tressage', 'Dégradés'],
+    experience: '7 ans',
+    languages: ['Français', 'Wolof', 'Anglais'],
+    isFavorite: false
+  },
+  {
+    id: 5,
+    name: 'Urban Style',
+    location: 'Dakar, Sénégal',
+    rating: 4.9,
+    reviews: 312,
+    services: ['Coupe', 'Barbe', 'Coloration', 'Dégradé'],
+    image: '/images/barbers/barber5.jpg',
+    logo: '/images/logos/salon5.png',
+    price: 'À partir de 3500 FCFA',
+    description: 'Maître barbier spécialisé dans les coupes modernes',
+    coordinates: { lat: 14.7167, lng: -17.4677 },
+    availability: 'Disponible aujourd\'hui',
+    distance: '5.5 km',
+    phone: '+221 77 555 55 55',
+    openingHours: 'Lun-Sam: 8h-20h',
+    specialties: ['Coupes modernes', 'Coloration', 'Dégradés'],
+    experience: '10 ans',
+    languages: ['Français', 'Wolof', 'Anglais'],
+    isFavorite: false
+  },
+  {
+    id: 6,
+    name: 'Classic Barbershop',
+    location: 'Dakar, Sénégal',
+    rating: 4.5,
+    reviews: 98,
+    services: ['Coupe', 'Barbe', 'Tresse', 'Dégradé'],
+    image: '/images/barbers/barber6.jpg',
+    logo: '/images/logos/salon6.png',
+    price: 'À partir de 2200 FCFA',
+    description: 'Spécialiste des tresses et coupes traditionnelles',
+    coordinates: { lat: 14.7167, lng: -17.4677 },
+    availability: 'Prochain rendez-vous: 16:00',
+    distance: '3.8 km',
+    phone: '+221 77 444 44 44',
+    openingHours: 'Lun-Sam: 9h-22h',
+    specialties: ['Tresses', 'Coupes traditionnelles', 'Dégradés'],
+    experience: '4 ans',
+    languages: ['Français', 'Wolof'],
+    isFavorite: false
+  }
 ];
 
 const services = [
@@ -143,15 +227,28 @@ export default function SearchPage() {
   };
 
   const filteredBarbers = barbers.filter(barber => {
+    // Filtre par recherche (nom ou localisation)
     const matchesSearch = barber.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          barber.location.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    // Filtre par localisation sélectionnée
     const matchesLocation = !selectedLocation || barber.location === selectedLocation;
+    
+    // Filtre par prix
     const matchesPrice = priceRange === 'all' || 
-                        (priceRange === 'low' && barber.price.includes('2000')) ||
-                        (priceRange === 'medium' && barber.price.includes('2500')) ||
-                        (priceRange === 'high' && barber.price.includes('3000'));
+                        (priceRange === 'low' && parseInt(barber.price) <= 2000) ||
+                        (priceRange === 'medium' && parseInt(barber.price) > 2000 && parseInt(barber.price) <= 3000) ||
+                        (priceRange === 'high' && parseInt(barber.price) > 3000);
+    
+    // Filtre par services
     const matchesServices = selectedServices.length === 0 || 
-                          selectedServices.every(service => barber.services.includes(service));
+                          selectedServices.every(service => 
+                            barber.services.some(s => 
+                              s.toLowerCase().includes(service.toLowerCase())
+                            )
+                          );
+    
+    // Filtre par note minimale
     const matchesRating = barber.rating >= minRating;
     
     return matchesSearch && matchesLocation && matchesPrice && matchesServices && matchesRating;
@@ -199,333 +296,148 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* En-tête avec logo */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="relative h-12 w-12">
-                <Image
-                  src="/images/logo.png"
-                  alt="Logo Barber App"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Rechercher un barbier</h1>
-                <p className="mt-2 text-gray-600">
-                  Trouvez le barbier parfait près de chez vous
-                </p>
-              </div>
-            </div>
-            <div className="hidden md:block">
-              <div className="flex items-center space-x-4">
-                <a href="/" className="text-gray-600 hover:text-gray-900">
-                  Accueil
-                </a>
-                <a href="/services" className="text-gray-600 hover:text-gray-900">
-                  Services
-                </a>
-                <a href="/about" className="text-gray-600 hover:text-gray-900">
-                  À propos
-                </a>
-                <a href="/contact" className="text-gray-600 hover:text-gray-900">
-                  Contact
-                </a>
+    <main className="min-h-screen bg-gray-50">
+      {/* Hero Section - Niveau 1 */}
+      <section className="bg-gradient-to-b from-primary-900 to-primary-800 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-6">Trouvez votre barbier</h1>
+            <p className="text-xl text-primary-100 mb-8">
+              Recherchez par localisation ou service
+            </p>
+            <div className="max-w-2xl mx-auto">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Entrez votre localisation..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg text-gray-900 bg-white/90 border-2 border-white/20 focus:border-white focus:ring-2 focus:ring-white/50 transition-all duration-300"
+                  />
+                </div>
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Service recherché..."
+                    value={selectedServices.join(', ')}
+                    onChange={(e) => setSelectedServices(e.target.value.split(',').map(s => s.trim()))}
+                    className="w-full px-4 py-3 rounded-lg text-gray-900 bg-white/90 border-2 border-white/20 focus:border-white focus:ring-2 focus:ring-white/50 transition-all duration-300"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Barre de recherche et filtres */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <div className="relative flex-1 max-w-xl">
-              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Rechercher un coiffeur..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="ml-4 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+      {/* Filtres Section - Niveau 2 */}
+      <section className="py-8 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap gap-4">
+            <button 
+              onClick={() => setSelectedServices([])}
+              className={`px-4 py-2 rounded-full transition-colors ${
+                selectedServices.length === 0 
+                  ? 'bg-primary-600 text-white' 
+                  : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+              }`}
             >
-              <AdjustmentsHorizontalIcon className="h-5 w-5 mr-2" />
-              Filtres
+              Tous les services
             </button>
+            {services.map((service) => (
+              <button
+                key={service}
+                onClick={() => {
+                  setSelectedServices(prev => 
+                    prev.includes(service)
+                      ? prev.filter(s => s !== service)
+                      : [...prev, service]
+                  );
+                }}
+                className={`px-4 py-2 rounded-full transition-colors ${
+                  selectedServices.includes(service)
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                {service}
+              </button>
+            ))}
           </div>
+        </div>
+      </section>
 
-          {showFilters && (
-            <div className="mt-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <select
-                  className="border border-gray-300 rounded-md px-4 py-2 focus:ring-primary-500 focus:border-primary-500"
-                  value={selectedLocation}
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                >
-                  <option value="">Toutes les zones</option>
-                  <option value="Dakar, Sénégal">Dakar</option>
-                  <option value="Thiès, Sénégal">Thiès</option>
-                  <option value="Saint-Louis, Sénégal">Saint-Louis</option>
-                </select>
-                <select
-                  className="border border-gray-300 rounded-md px-4 py-2 focus:ring-primary-500 focus:border-primary-500"
-                  value={priceRange}
-                  onChange={(e) => setPriceRange(e.target.value)}
-                >
-                  <option value="all">Tous les prix</option>
-                  <option value="low">Moins de 2000 FCFA</option>
-                  <option value="medium">2000-3000 FCFA</option>
-                  <option value="high">Plus de 3000 FCFA</option>
-                </select>
-                <select
-                  className="border border-gray-300 rounded-md px-4 py-2 focus:ring-primary-500 focus:border-primary-500"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
-                  <option value="rating">Meilleure note</option>
-                  <option value="price">Prix croissant</option>
-                  <option value="reviews">Plus d'avis</option>
-                  <option value="distance">Plus proche</option>
-                  <option value="experience">Plus d'expérience</option>
-                </select>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-sm font-medium text-gray-900 mb-2">Services</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {services.map((service) => (
-                      <button
-                        key={service}
-                        onClick={() => {
-                          setSelectedServices(prev =>
-                            prev.includes(service)
-                              ? prev.filter(s => s !== service)
-                              : [...prev, service]
-                          );
-                        }}
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          selectedServices.includes(service)
-                            ? 'bg-primary-100 text-primary-800'
-                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                        }`}
+      {/* Résultats Section - Niveau 3 */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredBarbers.map((barber) => (
+              <motion.div
+                key={barber.id}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+              >
+                <div className="relative h-48">
+                  <Image
+                    src={barber.image}
+                    alt={barber.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-xl font-bold text-white mb-1">{barber.name}</h3>
+                    <div className="flex items-center text-white/90 text-sm">
+                      <MapPinIcon className="h-4 w-4 mr-1" />
+                      <span>{barber.location}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <StarIcon
+                          key={i}
+                          className={`h-5 w-5 ${
+                            i < Math.floor(barber.rating)
+                              ? 'text-yellow-400'
+                              : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="ml-2 text-gray-600">({barber.reviews} avis)</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {barber.services.map((service, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-primary-50 text-primary-600 rounded-full text-sm"
                       >
                         {service}
-                      </button>
+                      </span>
                     ))}
                   </div>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-900 mb-2">Note minimum</h3>
-                  <div className="flex gap-2">
-                    {[5, 4, 3, 2, 1].map((rating) => (
-                      <button
-                        key={rating}
-                        onClick={() => setMinRating(rating)}
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          minRating === rating
-                            ? 'bg-primary-100 text-primary-800'
-                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                        }`}
-                      >
-                        {rating}★ et plus
-                      </button>
-                    ))}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-primary-600 font-medium">{barber.price}</span>
+                    <span className="text-gray-500 text-sm">{barber.distance}</span>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Boutons de vue */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="text-sm text-gray-500">
-            {sortedBarbers.length} coiffeurs trouvés
-          </div>
-          <div className="bg-white rounded-lg shadow-sm p-1">
-            <button
-              onClick={() => setShowMap(true)}
-              className={`p-2 rounded-md ${
-                showMap ? 'bg-primary-100 text-primary-800' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              <MapIcon className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => setShowMap(false)}
-              className={`p-2 rounded-md ${
-                !showMap ? 'bg-primary-100 text-primary-800' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              <ListBulletIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-
-        <div className="flex gap-8">
-          {/* Liste des coiffeurs */}
-          <div className={`${showMap ? 'w-1/2' : 'w-full'}`}>
-            {isLoading ? (
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="animate-pulse space-y-4">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="flex items-start space-x-4">
-                      <div className="h-16 w-16 bg-gray-200 rounded-full"></div>
-                      <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg shadow divide-y divide-gray-200">
-                {sortedBarbers.map((barber) => (
-                  <div 
-                    key={barber.id} 
-                    className={`p-6 hover:bg-gray-50 cursor-pointer transition-colors ${
-                      selectedBarber === barber.id ? 'bg-primary-50' : ''
-                    }`}
-                    onClick={() => handleBarberClick(barber)}
+                  <Link
+                    href={`/salon/${barber.id}`}
+                    className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition-colors"
                   >
-                    <div className="flex flex-col md:flex-row gap-4">
-                      {/* Section photo et logo */}
-                      <div className="flex flex-col items-center">
-                        <div className="relative h-20 w-20">
-                          <Image
-                            src={barber.image}
-                            alt={barber.name}
-                            fill
-                            className="rounded-full object-cover"
-                          />
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleFavorite(barber.id);
-                            }}
-                            className="absolute -top-1 -right-1 bg-white rounded-full p-1 shadow-md hover:bg-gray-100"
-                          >
-                            <HeartIcon 
-                              className={`h-4 w-4 ${
-                                favorites.includes(barber.id) ? 'text-red-500 fill-current' : 'text-gray-400'
-                              }`}
-                            />
-                          </button>
-                        </div>
-                        <div className="mt-2 relative h-10 w-10">
-                          <Image
-                            src={barber.logo}
-                            alt={`Logo ${barber.name}`}
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Section informations */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
-                          <div>
-                            <h3 className="text-lg font-medium text-gray-900 truncate">{barber.name}</h3>
-                            <div className="mt-1 flex items-center text-sm text-gray-500">
-                              <MapPinIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                              <span className="truncate">{barber.location}</span>
-                              <span className="mx-2">•</span>
-                              <span>{barber.distance}</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center">
-                            <StarIcon className="h-5 w-5 text-yellow-400" />
-                            <span className="ml-1 text-sm text-gray-600">{barber.rating}</span>
-                            <span className="ml-1 text-sm text-gray-500">({barber.reviews} avis)</span>
-                          </div>
-                        </div>
-
-                        <div className="mt-2">
-                          <p className="text-sm text-gray-600">{barber.specialties.join(' • ')}</p>
-                          <p className="mt-1 text-sm text-gray-500">{barber.experience} d'expérience</p>
-                        </div>
-
-                        {/* Services et prix */}
-                        <div className="mt-4 flex flex-col md:flex-row md:items-center gap-4">
-                          <div className="flex flex-wrap gap-2">
-                            {barber.services.map((service) => (
-                              <span
-                                key={service}
-                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800"
-                              >
-                                {service}
-                              </span>
-                            ))}
-                          </div>
-                          <span className="text-lg font-semibold text-primary-600 md:ml-auto">
-                            {barber.price}
-                          </span>
-                        </div>
-
-                        {/* Disponibilité et contact */}
-                        <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                          <div className="flex flex-wrap gap-4">
-                            <span className="text-sm text-green-600 flex items-center">
-                              <ClockIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                              {barber.availability}
-                            </span>
-                            <span className="text-sm text-gray-500 flex items-center">
-                              <PhoneIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                              {barber.phone}
-                            </span>
-                          </div>
-                          <button
-                            className="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 whitespace-nowrap"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedBarberDetails(barber);
-                              setShowReservation(true);
-                              setIsModalOpen(false);
-                            }}
-                          >
-                            Réserver
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                    Voir le salon
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
           </div>
-
-          {/* Carte */}
-          {showMap && (
-            <div className="w-1/2">
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-medium text-gray-900">Carte des coiffeurs</h2>
-                  <button
-                    onClick={() => setShowMap(false)}
-                    className="text-sm text-gray-500 hover:text-gray-700"
-                  >
-                    Masquer la carte
-                  </button>
-                </div>
-                <div className="h-[600px] rounded-lg overflow-hidden relative z-0">
-                  <BarberMap barbers={sortedBarbers} />
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-      </div>
+      </section>
 
       {/* Modal de détails du coiffeur */}
       {selectedBarberDetails && (
@@ -746,6 +658,6 @@ export default function SearchPage() {
           }}
         />
       )}
-    </div>
+    </main>
   );
 } 

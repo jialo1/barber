@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ScissorsIcon, ClockIcon, CurrencyDollarIcon, SparklesIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
+//import Image from 'next/image';
 import Carousel from '@/components/Carousel';
 
 const services = [

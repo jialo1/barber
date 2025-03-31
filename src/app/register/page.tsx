@@ -166,245 +166,149 @@ export default function RegisterPage() {
   const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Inscription Barbier</h1>
-            <p className="mt-2 text-gray-600">Créez votre profil de salon de coiffure</p>
+    <main className="min-h-screen bg-gray-50">
+      {/* Hero Section - Niveau 1 */}
+      <section className="bg-gradient-to-b from-primary-900 to-primary-800 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-6">Devenez barbier</h1>
+            <p className="text-xl text-primary-100 mb-8">
+              Rejoignez notre plateforme et développez votre activité
+            </p>
           </div>
-          
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Informations personnelles */}
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                <BuildingOfficeIcon className="h-6 w-6 text-primary-600 mr-2" />
-                Informations personnelles
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nom du salon
-                  </label>
-                  <input
-                    type="text"
-                    className={`input-field ${errors.name ? 'border-red-500' : ''}`}
-                    value={formData.name}
-                    onChange={(e) => {
-                      setFormData({ ...formData, name: e.target.value });
-                      if (errors.name) setErrors({ ...errors, name: undefined });
-                    }}
-                    required
-                  />
-                  {errors.name && (
-                    <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Numéro de téléphone
-                  </label>
-                  <div className="relative">
-                    <PhoneIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    <input
-                      type="tel"
-                      className={`input-field pl-10 ${errors.phone ? 'border-red-500' : ''}`}
-                      value={formData.phone}
-                      onChange={(e) => {
-                        setFormData({ ...formData, phone: e.target.value });
-                        if (errors.phone) setErrors({ ...errors, phone: undefined });
-                      }}
-                      placeholder="+221 77 777 77 77"
-                      required
-                    />
-                  </div>
-                  {errors.phone && (
-                    <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
-                  </label>
-                  <div className="relative">
-                    <EnvelopeIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    <input
-                      type="email"
-                      className={`input-field pl-10 ${errors.email ? 'border-red-500' : ''}`}
-                      value={formData.email}
-                      onChange={(e) => {
-                        setFormData({ ...formData, email: e.target.value });
-                        if (errors.email) setErrors({ ...errors, email: undefined });
-                      }}
-                      required
-                    />
-                  </div>
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Localisation
-                  </label>
-                  <div className="relative">
-                    <MapPinIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+        </div>
+      </section>
+
+      {/* Formulaire Section - Niveau 2 */}
+      <section className="py-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            <div className="space-y-8">
+              {/* Informations personnelles */}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Informations personnelles</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Nom complet
+                    </label>
                     <input
                       type="text"
-                      className={`input-field pl-10 ${errors.location ? 'border-red-500' : ''}`}
-                      value={formData.location}
-                      onChange={(e) => {
-                        setFormData({ ...formData, location: e.target.value });
-                        if (errors.location) setErrors({ ...errors, location: undefined });
-                      }}
-                      required
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
-                  {errors.location && (
-                    <p className="mt-1 text-sm text-red-600">{errors.location}</p>
-                  )}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Téléphone
+                    </label>
+                    <input
+                      type="tel"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Mot de passe
+                    </label>
+                    <input
+                      type="password"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Description */}
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description du salon
-              </label>
-              <textarea
-                className={`input-field ${errors.description ? 'border-red-500' : ''}`}
-                rows={4}
-                value={formData.description}
-                onChange={(e) => {
-                  setFormData({ ...formData, description: e.target.value });
-                  if (errors.description) setErrors({ ...errors, description: undefined });
-                }}
-                placeholder="Décrivez votre salon, vos spécialités, votre expérience..."
-                required
-              />
-              {errors.description && (
-                <p className="mt-1 text-sm text-red-600">{errors.description}</p>
-              )}
-            </div>
-
-            {/* Services */}
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                <ScissorsIcon className="h-6 w-6 text-primary-600 mr-2" />
-                Services
-              </h2>
-              <div className="space-y-4">
-                {formData.services.map((service, index) => (
-                  <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-white rounded-lg shadow-sm">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Nom du service
-                      </label>
-                      <input
-                        type="text"
-                        className={`input-field ${errors.services[index]?.includes('Nom du service requis') ? 'border-red-500' : ''}`}
-                        value={service.name}
-                        onChange={(e) => handleServiceChange(index, 'name', e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Prix (FCFA)
-                      </label>
-                      <input
-                        type="number"
-                        className={`input-field ${errors.services[index]?.includes('Prix requis') ? 'border-red-500' : ''}`}
-                        value={service.price}
-                        onChange={(e) => handleServiceChange(index, 'price', e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Durée (minutes)
-                      </label>
-                      <input
-                        type="number"
-                        className={`input-field ${errors.services[index]?.includes('Durée requise') ? 'border-red-500' : ''}`}
-                        value={service.duration}
-                        onChange={(e) => handleServiceChange(index, 'duration', e.target.value)}
-                        required
-                      />
-                    </div>
-                    {index > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => removeService(index)}
-                        className="text-red-600 hover:text-red-700 text-sm"
-                      >
-                        Supprimer
-                      </button>
-                    )}
+              {/* Informations du salon */}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Informations du salon</h2>
+                <div className="grid grid-cols-1 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Nom du salon
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    />
                   </div>
-                ))}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Adresse
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      rows={4}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Horaires d'ouverture
+                    </label>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <input
+                          type="time"
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="time"
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Services proposés */}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Services proposés</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {['Coupe', 'Barbe', 'Coloration', 'Tresse', 'Dégradé', 'Soins'].map((service) => (
+                    <div key={service} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                      />
+                      <label className="ml-2 text-sm text-gray-700">{service}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bouton d'inscription */}
+              <div>
                 <button
-                  type="button"
-                  onClick={addService}
-                  className="btn-secondary w-full"
+                  type="submit"
+                  className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium"
                 >
-                  + Ajouter un service
+                  Créer mon compte
                 </button>
               </div>
             </div>
-
-            {/* Horaires d'ouverture */}
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                <ClockIcon className="h-6 w-6 text-primary-600 mr-2" />
-                Horaires d'ouverture
-              </h2>
-              <div className="space-y-4">
-                {days.map((day, index) => (
-                  <div key={day} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center p-4 bg-white rounded-lg shadow-sm">
-                    <span className="font-medium text-gray-900">{day}</span>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Ouverture
-                      </label>
-                      <input
-                        type="time"
-                        className={`input-field ${errors.workingHours[index] ? 'border-red-500' : ''}`}
-                        value={formData.workingHours[index].open}
-                        onChange={(e) => handleWorkingHoursChange(index, 'open', e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Fermeture
-                      </label>
-                      <input
-                        type="time"
-                        className={`input-field ${errors.workingHours[index] ? 'border-red-500' : ''}`}
-                        value={formData.workingHours[index].close}
-                        onChange={(e) => handleWorkingHoursChange(index, 'close', e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className={`btn-primary ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''}`}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Inscription en cours...' : 'S\'inscrire'}
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 } 

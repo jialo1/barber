@@ -2,15 +2,54 @@ import { useState, useEffect } from 'react';
 import { CalendarIcon, ClockIcon, UserIcon, PhoneIcon, ChatBubbleLeftIcon, XMarkIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
-interface ReservationSystemProps {
-  barber: {
-    id: number;
+interface Barber {
+  id: number;
+  name: string;
+  description: string;
+  rating: number;
+  reviews: number;
+  location: string;
+  address: string;
+  phone: string;
+  email: string;
+  hours: string;
+  image: string;
+  services: Array<{
     name: string;
-    services: string[];
-    image: string;
     price: string;
-  };
+    duration: string;
+    description: string;
+    image: string;
+  }>;
+}
+
+interface Salon {
+  id: number;
+  name: string;
+  description: string;
+  rating: number;
+  reviews: number;
+  location: string;
+  address: string;
+  phone: string;
+  email: string;
+  hours: string;
+  image: string;
+  services: Array<SalonService>;
+}
+
+interface SalonService {
+  name: string;
+  price: string;
+  duration: string;
+  description: string;
+  image: string;
+}
+
+interface Props {
+  barber: Salon;
   onClose: () => void;
+  initialService?: SalonService | null;
 }
 
 interface TimeSlot {
@@ -18,19 +57,17 @@ interface TimeSlot {
   available: boolean;
 }
 
-export default function ReservationSystem({ barber, onClose }: ReservationSystemProps) {
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedTime, setSelectedTime] = useState<string>('');
-  const [selectedService, setSelectedService] = useState<string>('');
+export default function ReservationSystem({ barber, onClose, initialService }: Props) {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<SalonService | null>(initialService || null);
   const [selectedAdditionalServices, setSelectedAdditionalServices] = useState<string[]>([]);
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    notes: ''
-  });
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -127,7 +164,7 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
     let total = 0;
     
     // Prix du service principal
-    const mainService = services.find(s => s.name === selectedService);
+    const mainService = services.find(s => s.name === selectedService?.name);
     if (mainService) {
       total += parseInt(mainService.price.replace(/[^0-9]/g, ''));
     }
@@ -248,18 +285,18 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                       <div
                         key={service.name}
                         className={`relative p-3 rounded-lg border-2 transition-all duration-200 cursor-pointer hover:shadow-md ${
-                          selectedService === service.name
+                          selectedService?.name === service.name
                             ? 'border-primary-500 bg-primary-50'
                             : 'border-gray-200 hover:border-primary-300'
                         }`}
-                        onClick={() => setSelectedService(service.name)}
+                        onClick={() => setSelectedService(service as SalonService)}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
                             <h3 className="text-base font-medium text-gray-900">{service.name}</h3>
                             <span className="text-sm text-primary-600 font-medium">{service.price}</span>
                           </div>
-                          <div className={`ml-3 flex-shrink-0 ${selectedService === service.name ? 'text-primary-500' : 'text-gray-300'}`}>
+                          <div className={`ml-3 flex-shrink-0 ${selectedService?.name === service.name ? 'text-primary-500' : 'text-gray-300'}`}>
                             <CheckCircleIcon className="h-5 w-5" />
                           </div>
                         </div>
@@ -320,8 +357,8 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                   <div className="relative">
                     <input
                       type="date"
-                      value={selectedDate}
-                      onChange={(e) => setSelectedDate(e.target.value)}
+                      value={selectedDate?.toISOString().split('T')[0] || ''}
+                      onChange={(e) => setSelectedDate(new Date(e.target.value))}
                       min={new Date().toISOString().split('T')[0]}
                       className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     />
@@ -374,8 +411,8 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                   <div className="relative">
                     <input
                       type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                       required
                     />
@@ -390,8 +427,8 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                   <div className="relative">
                     <input
                       type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                       className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                       required
                     />
@@ -406,8 +443,8 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                   <div className="relative">
                     <input
                       type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                       required
                     />
@@ -420,8 +457,8 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                     Notes (optionnel)
                   </label>
                   <textarea
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
                     rows={3}
                     className="block w-full border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Ajoutez des détails sur votre demande..."
@@ -437,7 +474,7 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                   </button>
                   <button
                     onClick={() => setStep(3)}
-                    disabled={!formData.name || !formData.phone || !formData.email}
+                    disabled={!name || !phone || !email}
                     className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Suivant
@@ -453,7 +490,7 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Service Principal</span>
-                      <span className="font-medium">{selectedService}</span>
+                      <span className="font-medium">{selectedService?.name}</span>
                     </div>
                     {selectedAdditionalServices.length > 0 && (
                       <div>
@@ -472,7 +509,7 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                     )}
                     <div className="flex justify-between">
                       <span className="text-gray-600">Date</span>
-                      <span className="font-medium">{selectedDate}</span>
+                      <span className="font-medium">{selectedDate?.toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Heure</span>
@@ -480,20 +517,20 @@ export default function ReservationSystem({ barber, onClose }: ReservationSystem
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Nom</span>
-                      <span className="font-medium">{formData.name}</span>
+                      <span className="font-medium">{name}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Téléphone</span>
-                      <span className="font-medium">{formData.phone}</span>
+                      <span className="font-medium">{phone}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Email</span>
-                      <span className="font-medium">{formData.email}</span>
+                      <span className="font-medium">{email}</span>
                     </div>
-                    {formData.notes && (
+                    {notes && (
                       <div className="flex justify-between">
                         <span className="text-gray-600">Notes</span>
-                        <span className="font-medium">{formData.notes}</span>
+                        <span className="font-medium">{notes}</span>
                       </div>
                     )}
                     <div className="pt-3 border-t border-gray-200">

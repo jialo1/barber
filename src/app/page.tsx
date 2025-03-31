@@ -5,6 +5,7 @@ import { MapPinIcon, ClockIcon, ScissorsIcon, StarIcon, UserGroupIcon } from '@h
 import Image from 'next/image';
 import { useState } from 'react';
 import ReservationSystem from '@/components/ReservationSystem';
+import { motion } from 'framer-motion';
 
 interface Barber {
   id: number;
@@ -29,6 +30,7 @@ export default function Home() {
       duration: '30-45 min',
       image: '/images/services/coupe.svg',
       barber: {
+        id: 1,
         name: 'Salon Elite',
         rating: 4.8,
         reviews: 128,
@@ -43,6 +45,7 @@ export default function Home() {
       duration: '20-30 min',
       image: '/images/services/barbe.svg',
       barber: {
+        id: 2,
         name: 'Barber Shop Premium',
         rating: 4.9,
         reviews: 256,
@@ -57,6 +60,7 @@ export default function Home() {
       duration: '45-60 min',
       image: '/images/services/coupe-barbe.svg',
       barber: {
+        id: 1,
         name: 'Salon Elite',
         rating: 4.8,
         reviews: 128,
@@ -71,6 +75,7 @@ export default function Home() {
       duration: '40-50 min',
       image: '/images/services/degrade.svg',
       barber: {
+        id: 2,
         name: 'Barber Shop Premium',
         rating: 4.9,
         reviews: 256,
@@ -85,6 +90,7 @@ export default function Home() {
       duration: '60-90 min',
       image: '/images/services/tresse.svg',
       barber: {
+        id: 2,
         name: 'Barber Shop Premium',
         rating: 4.9,
         reviews: 256,
@@ -99,6 +105,7 @@ export default function Home() {
       duration: '45-60 min',
       image: '/images/services/coloration.svg',
       barber: {
+        id: 1,
         name: 'Salon Elite',
         rating: 4.8,
         reviews: 128,
@@ -113,6 +120,7 @@ export default function Home() {
       duration: '45-60 min',
       image: '/images/services/coupe.svg',
       barber: {
+        id: 1,
         name: 'Salon Elite',
         rating: 4.8,
         reviews: 128,
@@ -127,6 +135,7 @@ export default function Home() {
       duration: '30-45 min',
       image: '/images/services/coloration.svg',
       barber: {
+        id: 2,
         name: 'Barber Shop Premium',
         rating: 4.9,
         reviews: 256,
@@ -141,6 +150,7 @@ export default function Home() {
       duration: '60-75 min',
       image: '/images/services/coupe-barbe.svg',
       barber: {
+        id: 1,
         name: 'Salon Elite',
         rating: 4.8,
         reviews: 128,
@@ -152,22 +162,22 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-white">
+      {/* Hero Section - Niveau 1 */}
+      <section className="bg-gradient-to-b from-primary-900 to-primary-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
-            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+            <h1 className="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl">
               <span className="block">Trouvez votre</span>
-              <span className="block text-primary-600">barbier idéal</span>
+              <span className="block text-primary-200">barbier idéal</span>
             </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p className="mt-3 max-w-md mx-auto text-base text-primary-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
               Réservez facilement votre prochain rendez-vous chez le meilleur barbier près de chez vous.
             </p>
             <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
+              <div className="rounded-md shadow-lg">
                 <Link
                   href="/search"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10"
+                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-900 bg-white hover:bg-primary-50 md:py-4 md:text-lg md:px-10 transition-all duration-300"
                 >
                   Trouver un barbier
                 </Link>
@@ -175,7 +185,7 @@ export default function Home() {
               <div className="mt-3 sm:mt-0 sm:ml-3">
                 <Link
                   href="/register"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 md:py-4 md:text-lg md:px-10"
+                  className="w-full flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-md text-white hover:bg-white/10 md:py-4 md:text-lg md:px-10 transition-all duration-300"
                 >
                   Devenir barbier
                 </Link>
@@ -185,36 +195,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-12 bg-white">
+      {/* Features Section - Niveau 2 */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Pourquoi nous choisir ?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Une expérience de réservation simple et efficace pour vos besoins de coiffure
+            </p>
+          </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="text-center">
-              <div className="flex justify-center">
-                <MapPinIcon className="h-12 w-12 text-primary-600" />
+            <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div className="flex justify-center mb-6">
+                <div className="bg-primary-50 p-4 rounded-full">
+                  <MapPinIcon className="h-8 w-8 text-primary-600" />
+                </div>
               </div>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">Localisation</h3>
-              <p className="mt-2 text-base text-gray-500">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Localisation</h3>
+              <p className="text-gray-600">
                 Trouvez les meilleurs barbiers près de chez vous
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="flex justify-center">
-                <ClockIcon className="h-12 w-12 text-primary-600" />
+            <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div className="flex justify-center mb-6">
+                <div className="bg-primary-50 p-4 rounded-full">
+                  <ClockIcon className="h-8 w-8 text-primary-600" />
+                </div>
               </div>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">Réservation rapide</h3>
-              <p className="mt-2 text-base text-gray-500">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Réservation rapide</h3>
+              <p className="text-gray-600">
                 Réservez en quelques clics, sans attente
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="flex justify-center">
-                <ScissorsIcon className="h-12 w-12 text-primary-600" />
+            <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div className="flex justify-center mb-6">
+                <div className="bg-primary-50 p-4 rounded-full">
+                  <ScissorsIcon className="h-8 w-8 text-primary-600" />
+                </div>
               </div>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">Services variés</h3>
-              <p className="mt-2 text-base text-gray-500">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Services variés</h3>
+              <p className="text-gray-600">
                 Découvrez une large gamme de services de coiffure
               </p>
             </div>
@@ -222,112 +244,151 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Popular Services Section */}
+      {/* Section Salons Populaires - Niveau 3 */}
       <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900">Services populaires</h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Découvrez nos services les plus demandés
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Salons Populaires</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez les meilleurs salons de coiffure de Dakar, sélectionnés pour leur qualité de service et leur expertise
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
-              <div key={service.name} className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                {/* Image du service avec overlay */}
-                <div className="relative h-64">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                id: 1,
+                name: 'Salon Elite',
+                location: 'Dakar, Sénégal',
+                rating: 4.8,
+                reviews: 128,
+                image: '/images/barbers/barber1.jpg',
+                description: 'Un salon de coiffure haut de gamme offrant des services personnalisés et une expérience unique.',
+                services: ['Coupe', 'Barbe', 'Coloration']
+              },
+              {
+                id: 2,
+                name: 'Barber Shop Premium',
+                location: 'Dakar, Sénégal',
+                rating: 4.9,
+                reviews: 256,
+                image: '/images/barbers/barber2.jpg',
+                description: 'Le meilleur salon de barbier traditionnel avec une touche moderne.',
+                services: ['Barbe', 'Dégradé', 'Tresse']
+              },
+              {
+                id: 3,
+                name: 'Style & Co',
+                location: 'Dakar, Sénégal',
+                rating: 4.7,
+                reviews: 98,
+                image: '/images/barbers/barber3.jpg',
+                description: 'Un salon moderne spécialisé dans les coupes tendance et les soins capillaires.',
+                services: ['Coupe', 'Coloration', 'Soins']
+              },
+              {
+                id: 4,
+                name: 'Afro Style',
+                location: 'Dakar, Sénégal',
+                rating: 4.9,
+                reviews: 167,
+                image: '/images/barbers/barber4.jpg',
+                description: 'Spécialiste des coupes afro et des styles traditionnels africains.',
+                services: ['Coupe Afro', 'Tresse', 'Soins']
+              },
+              {
+                id: 5,
+                name: 'Modern Cuts',
+                location: 'Dakar, Sénégal',
+                rating: 4.6,
+                reviews: 89,
+                image: '/images/barbers/barber5.jpg',
+                description: 'Salon contemporain offrant les dernières tendances de coiffure.',
+                services: ['Dégradé', 'Coloration', 'Coupe']
+              },
+              {
+                id: 6,
+                name: 'Luxury Barbers',
+                location: 'Dakar, Sénégal',
+                rating: 4.8,
+                reviews: 145,
+                image: '/images/barbers/barber6.jpg',
+                description: 'Une expérience de luxe avec des services premium et personnalisés.',
+                services: ['Coupe', 'Barbe', 'Soins']
+              }
+            ].map((salon) => (
+              <motion.div
+                key={salon.id}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col"
+              >
+                <div className="relative h-48">
                   <Image
-                    src={service.image}
-                    alt={service.name}
+                    src={salon.image}
+                    alt={salon.name}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-2xl font-bold text-white mb-2">{service.name}</h3>
-                    <p className="text-white/90 text-sm">{service.description}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-xl font-bold text-white mb-1">{salon.name}</h3>
+                    <div className="flex items-center text-white/90 text-sm">
+                      <MapPinIcon className="h-4 w-4 mr-1" />
+                      <span>{salon.location}</span>
+                    </div>
                   </div>
                 </div>
-
-                {/* Informations du salon */}
-                <div className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="relative h-14 w-14 rounded-full overflow-hidden ring-4 ring-primary-100">
-                      <Image
-                        src={service.barber.image}
-                        alt={service.barber.name}
-                        fill
-                        className="object-cover"
-                      />
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <StarIcon
+                          key={i}
+                          className={`h-5 w-5 ${
+                            i < Math.floor(salon.rating)
+                              ? 'text-yellow-400'
+                              : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
                     </div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-gray-900">{service.barber.name}</h4>
-                      <div className="flex items-center mt-1">
-                        <StarIcon className="h-4 w-4 text-yellow-400" />
-                        <span className="ml-1 text-sm text-gray-600">{service.barber.rating}</span>
-                        <span className="ml-1 text-sm text-gray-500">({service.barber.reviews} avis)</span>
-                      </div>
-                      <p className="text-sm text-gray-500 mt-1">{service.barber.location}</p>
-                    </div>
+                    <span className="ml-2 text-gray-600">({salon.reviews} avis)</span>
                   </div>
-
-                  {/* Prix et durée */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-base font-semibold text-primary-600">{service.price}</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-gray-500 text-sm">
-                      <ClockIcon className="h-4 w-4" />
-                      <span>{service.duration}</span>
-                    </div>
+                  <p className="text-gray-600 mb-4 flex-grow">{salon.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {salon.services.map((service, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-primary-50 text-primary-600 rounded-full text-sm"
+                      >
+                        {service}
+                      </span>
+                    ))}
                   </div>
-
-                  {/* Bouton Réserver */}
-                  <button
-                    onClick={() => {
-                      setSelectedBarber({
-                        id: 1, // ID temporaire
-                        name: service.barber.name,
-                        image: service.barber.image,
-                        rating: service.barber.rating,
-                        reviews: service.barber.reviews,
-                        location: service.barber.location,
-                        price: service.price,
-                        services: [service.name]
-                      });
-                      setShowReservation(true);
-                    }}
-                    className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 transform transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-primary-500/25"
+                  <Link
+                    href={`/salon/${salon.id}`}
+                    className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition-colors"
                   >
-                    Réserver maintenant
-                  </button>
+                    Voir le salon
+                  </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Système de réservation */}
-      {showReservation && selectedBarber && (
-        <ReservationSystem
-          barber={selectedBarber}
-          onClose={() => {
-            setShowReservation(false);
-            setSelectedBarber(null);
-          }}
-        />
-      )}
-
-      {/* Testimonials Section */}
-      <section className="py-12 bg-white">
+      {/* Testimonials Section - Niveau 4 */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              Ce que disent nos clients
-            </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Ce que disent nos clients</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez les expériences de nos clients satisfaits
+            </p>
           </div>
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 name: 'Mamadou Diop',
@@ -348,47 +409,58 @@ export default function Home() {
                 rating: 5,
               },
             ].map((testimonial) => (
-              <div key={testimonial.name} className="bg-gray-50 rounded-lg p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <UserGroupIcon className="h-12 w-12 text-primary-600" />
+              <div key={testimonial.name} className="bg-gray-50 rounded-xl p-8 border border-gray-100 hover:shadow-lg transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="bg-primary-50 p-3 rounded-full">
+                    <UserGroupIcon className="h-6 w-6 text-primary-600" />
                   </div>
                   <div className="ml-4">
-                    <h4 className="text-lg font-medium text-gray-900">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-500">{testimonial.role}</p>
+                    <h4 className="text-lg font-semibold text-gray-900">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-600">{testimonial.role}</p>
                   </div>
                 </div>
-                <div className="mt-4 flex">
+                <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
                   ))}
                 </div>
-                <p className="mt-4 text-gray-500">{testimonial.content}</p>
+                <p className="text-gray-600 italic">"{testimonial.content}"</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-primary-600">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+      {/* CTA Section - Niveau 5 */}
+      <section className="bg-primary-900">
+        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             <span className="block">Prêt à commencer ?</span>
             <span className="block text-primary-200">Trouvez votre barbier dès aujourd'hui.</span>
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-            <div className="inline-flex rounded-md shadow">
+            <div className="inline-flex rounded-md shadow-lg">
               <Link
                 href="/search"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50"
+                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-900 bg-white hover:bg-primary-50 transition-all duration-300"
               >
-                Commencer
+                Commencer maintenant
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Système de réservation */}
+      {showReservation && selectedBarber && (
+        <ReservationSystem
+          barber={selectedBarber}
+          onClose={() => {
+            setShowReservation(false);
+            setSelectedBarber(null);
+          }}
+        />
+      )}
     </main>
   );
 } 
